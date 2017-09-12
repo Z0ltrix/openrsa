@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import euclid
-import prime
-import key
 import random
+
+import euclid
+import key
+import prime
 
 
 class SimpleRsa:
@@ -26,7 +27,7 @@ class SimpleRsa:
         return encipherExponent
 
     def __calculateDecipherExponent(self, phi, encipherExponent):
-        gcd, k, decipherExponent = self.__euclid.extendedGcd(phi, encipherExponent)
+        gcd, k, decipherExponent = self.__euclid.extended_gcd(phi, encipherExponent)
         return decipherExponent
 
     def __checkModulo(self, modulo):
