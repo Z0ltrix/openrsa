@@ -13,12 +13,11 @@ class EuclidTestCase(unittest.TestCase):
         self.coefficient_v = -13
 
     def tearDown(self):
-        self.euclid = None
-        self.divisor_a = None
-        self.divisor_b = None
-        self.gcd = None
-        self.coefficient_u = None
-        self.coefficient_v = None
+        del self.divisor_a
+        del self.divisor_b
+        del self.gcd
+        del self.coefficient_u
+        del self.coefficient_v
 
     def test_gcd(self):
         self.assertTrue(Euclid.algorithm(self.divisor_a, self.divisor_b) == self.gcd,

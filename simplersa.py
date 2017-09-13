@@ -9,24 +9,24 @@ import prime
 
 class SimpleRsa:
     def __init__(self):
-        self.__euclid = Euclid()
+        pass
 
-    def __calculateModulo(self, p, q):
+    def _calculateModulo(self, p, q):
         modulo = p * q
         return modulo
 
-    def __calculatePhi(self, p, q):
+    def _calculatePhi(self, p, q):
         phi = (p - 1) * (q - 1)
         return phi
 
-    def __calculateEncipherExponent(self, phi):
+    def _calculateEncipherExponent(self, phi):
         while True:
             encipherExponent = random.SystemRandom().randint(1, phi)
             if (Euclid.algorithm(encipherExponent, phi) == 1):
                 break
         return encipherExponent
 
-    def __calculateDecipherExponent(self, phi, encipherExponent):
+    def _calculateDecipherExponent(self, phi, encipherExponent):
         gcd, u, decipherExponent = Euclid.extended_algorithm(phi, encipherExponent)
         if decipherExponent < 0:
             decipherExponent += phi
@@ -34,7 +34,7 @@ class SimpleRsa:
             pass
         return decipherExponent
 
-    def __checkModulo(self, modulo):
+    def _checkModulo(self, modulo):
         if (modulo.bit_length() == bits):
             return True
         else:
@@ -51,8 +51,8 @@ class SimpleRsa:
                 p = prime.Prime(pBits)
             if (q == 0) or (change == 0):
                 q = prime.Prime(qBits)
-            modulo = self.__calculateModulo(p, q)
-            if self.__checkModulo(modulo):
+            modulo = self._calculateModulo(p, q)
+            if self._checkModulo(modulo):
                 break
             else:
                 if (change == 0):
@@ -60,9 +60,9 @@ class SimpleRsa:
                 else:
                     change = 0
                 continue
-        phi = self.__calculatePhi(p, q)
-        encipherExponent = self.__calculateEncipherExponent(phi)
-        decipherExponent = self.__calculateDecipherExponent(phi, encipherExponent)
+        phi = self._calculatePhi(p, q)
+        encipherExponent = self._calculateEncipherExponent(phi)
+        decipherExponent = self._calculateDecipherExponent(phi, encipherExponent)
         privateKey = key.PrivateKey(modulo, decipherExponent)
         publicKey = key.PublicKey(modulo, encipherExponent)
         return (privateKey, publicKey)
