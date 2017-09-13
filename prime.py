@@ -22,6 +22,8 @@ class Prime:
         while True:
             maybe = random.SystemRandom().getrandbits(bits)
             maybe |= 1
+            if maybe.bit_length() != bits:
+                continue
             if self._is_primality(maybe):
                 break
         self._value = maybe
@@ -54,7 +56,7 @@ class Prime:
             else:
                 return False
 
-    def __add_(self, b):
+    def __add__(self, b):
         """
         Adds a potential prime number
 
@@ -93,7 +95,7 @@ class Prime:
         else:
             return self._value * b
 
-    def __div__(self, b):
+    def __truediv__(self, b):
         """
         Divides a potential prime number
 
@@ -131,3 +133,9 @@ class Prime:
             if SolovayStrassen.is_composite(x, maybe):
                 return False
         return True
+
+if __name__ == '__main__':
+    b = 2048
+    p = Prime(b)
+    print(b)
+    print(p.value.bit_length())

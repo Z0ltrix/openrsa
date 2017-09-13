@@ -4,7 +4,7 @@ import unittest
 from solovaystrassen import SolovayStrassen
 
 
-class JacobiTestCase(unittest.TestCase):
+class SolovayStrassenTestCase(unittest.TestCase):
     def setUp(self):
         self.a1 = 17
         self.a2 = 29
