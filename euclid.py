@@ -12,6 +12,12 @@ class Euclid:
         """
         pass
 
+    def __del__(self):
+        """
+        The destructor of this class does nothing
+        """
+        pass
+
     @staticmethod
     def algorithm(a, b):
         """

@@ -6,6 +6,18 @@ class Jacobi:
     A Class to compute the Jacobi Symbol
     """
 
+    def __init__(self):
+        """
+        The constructor of this class does nothing
+        """
+        pass
+
+    def __del__(self):
+        """
+        The destructor of this class does nothing
+        """
+        pass
+
     @staticmethod
     def symbol(a, n):
         """
