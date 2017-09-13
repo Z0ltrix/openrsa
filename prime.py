@@ -133,9 +133,3 @@ class Prime:
             if SolovayStrassen.is_composite(x, maybe):
                 return False
         return True
-
-if __name__ == '__main__':
-    b = 2048
-    p = Prime(b)
-    print(b)
-    print(p.value.bit_length())
