@@ -6,20 +6,30 @@ from euclid import Euclid
 
 class EuclidTestCase(unittest.TestCase):
     def setUp(self):
-        self.testobject = Euclid()
-        self.gcd_divisor_a = 1268542
-        self.gcd_divisor_b = 10815354
-        self.gcd = 22
+        self.divisor_a = 180
+        self.divisor_b = 235
+        self.gcd = 5
+        self.coefficient_u = 17
+        self.coefficient_v = -13
 
     def tearDown(self):
-        self.testobject = None
-        self.gcd_divisor_a = None
-        self.gcd_divisor_b = None
+        self.euclid = None
+        self.divisor_a = None
+        self.divisor_b = None
         self.gcd = None
+        self.coefficient_u = None
+        self.coefficient_v = None
 
     def test_gcd(self):
-        self.assertTrue(self.testobject.gcd(self.gcd_divisor_a, self.gcd_divisor_b) == 22,
-                        "Method gcd of class Euclid is not working correktly")
+        self.assertTrue(Euclid.algorithm(self.divisor_a, self.divisor_b) == self.gcd,
+                        "Method gcd of class Euclid is not giving the expected values back")
 
     def test_extended_gcd(self):
-        pass
+        self.assertTrue(Euclid.extended_algorithm(self.divisor_a, self.divisor_b) == (
+            self.gcd, self.coefficient_u, self.coefficient_v),
+                        "Method extended_gcd of class Euclid is not giving the expected values back")
+
+    def test_bezout_identity(self):
+        var_gcd, var_coefficient_u, var_coefficient_v = Euclid.extended_algorithm(self.divisor_a, self.divisor_b)
+        self.assertTrue(self.divisor_a * var_coefficient_u + self.divisor_b * var_coefficient_v == var_gcd,
+                        "Method extended_gcd of class Euclid is not fulfilling Bézout's identity")

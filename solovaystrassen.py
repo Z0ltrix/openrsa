@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 
-import euclid
+from euclid import Euclid
 import jacobi
 
 
 class SolovayStrassen:
     def __init__(self):
-        self.__euclid = euclid.Euclid()
         self.__jacobi = jacobi.Jacobi()
 
     def isComposite(self, a, maybe):
-        g = self.__euclid.gcd(a, maybe)
+        g = Euclid.algorithm(a, maybe)
         b = pow(a, maybe >> 1, maybe)
         if g > 1:
             return True

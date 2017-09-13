@@ -2,14 +2,14 @@
 
 import random
 
-import euclid
+from euclid import Euclid
 import key
 import prime
 
 
 class SimpleRsa:
     def __init__(self):
-        self.__euclid = euclid.Euclid()
+        self.__euclid = Euclid()
 
     def __calculateModulo(self, p, q):
         modulo = p * q
@@ -22,12 +22,16 @@ class SimpleRsa:
     def __calculateEncipherExponent(self, phi):
         while True:
             encipherExponent = random.SystemRandom().randint(1, phi)
-            if (self.__euclid.gcd(encipherExponent, phi) == 1):
+            if (Euclid.algorithm(encipherExponent, phi) == 1):
                 break
         return encipherExponent
 
     def __calculateDecipherExponent(self, phi, encipherExponent):
-        gcd, k, decipherExponent = self.__euclid.extended_gcd(phi, encipherExponent)
+        gcd, u, decipherExponent = Euclid.extended_algorithm(phi, encipherExponent)
+        if decipherExponent < 0:
+            decipherExponent += phi
+        else:
+            pass
         return decipherExponent
 
     def __checkModulo(self, modulo):
@@ -76,16 +80,16 @@ class SimpleRsa:
         return pow(data, encipherExponent, modulo)
 
 
-# TESTS
-rsa = SimpleRsa()
-data = int(input("Data      : "))
-while True:
-    bits = int(input("Bits      : "))
-    privateKey, publicKey = rsa.generateKeyPair(bits)
-    print("encipherExponent : ", publicKey.getEncipherExponent())
-    print("decipherExponent : ", privateKey.getDecipherExponent())
-    encipheredData = rsa.encipher(data, publicKey.getEncipherExponent(), publicKey.getModulo())
-    print("encipheredData   : ", encipheredData)
-    decipheredData = rsa.decipher(encipheredData, privateKey.getDecipherExponent(), privateKey.getModulo())
-    print("decipheredData   : ", decipheredData)
-    if input("nochmal? ") == "nein": break
+if __name__ == '__main__':
+    rsa = SimpleRsa()
+    data = int(input("Data      : "))
+    while True:
+        bits = int(input("Bits      : "))
+        privateKey, publicKey = rsa.generateKeyPair(bits)
+        print("encipherExponent : ", publicKey.getEncipherExponent())
+        print("decipherExponent : ", privateKey.getDecipherExponent())
+        encipheredData = rsa.encipher(data, publicKey.getEncipherExponent(), publicKey.getModulo())
+        print("encipheredData   : ", encipheredData)
+        decipheredData = rsa.decipher(encipheredData, privateKey.getDecipherExponent(), privateKey.getModulo())
+        print("decipheredData   : ", decipheredData)
+        if input("nochmal? ") == "nein": break
