@@ -2,65 +2,132 @@
 
 import random
 
-import solovaystrassen
+from solovaystrassen import SolovayStrassen
 
 
 class Prime:
-    __SOLOVAYSTRASSENROUNDS = 100
+    """
+    Class for working with prime numbers
+    """
+
+    SOLOVAY_STRASSEN_ROUNDS = 100
 
     def __init__(self, bits):
-        self.__solovayStrassen = solovaystrassen.SolovayStrassen()
+        """
+        Constructor for prime numbers.
+        The Constructor reads a random Number and loops until one is a primality
+
+        :param bits: number of bits the prime number should have
+        """
         while True:
-            prime = random.SystemRandom().getrandbits(bits)
-            prime |= 1
-            if self.__isPrimality(prime): break
-        self.__value = prime
+            maybe = random.SystemRandom().getrandbits(bits)
+            maybe |= 1
+            if self._is_primality(maybe):
+                break
+        self._value = maybe
 
     def __del__(self):
-        del self.__value
+        """
+        Destructor for prime numbers.
+        Deletes the value.
+        """
+        del self._value
 
     def __eq__(self, b):
+        """
+        Checks if two prime numbers are equal
+
+        :param b: the other prime number
+        :return:
+            True if the primes are equal
+            False if the primes are not equal
+        :rtype: bool
+        """
         if isinstance(b, Prime):
-            if self.__value == b.__value:
+            if self._value == b._value:
                 return True
             else:
                 return False
         else:
-            if self.__value == b:
+            if self._value == b:
                 return True
             else:
                 return False
 
     def __add_(self, b):
+        """
+        Adds a potential prime number
+
+        :param b: the potential prime number
+        :return: the result
+        :rtype: int
+        """
         if isinstance(b, Prime):
-            return (self.__value + b.__value)
+            return self._value + b._value
         else:
-            return (self.__value + b)
+            return self._value + b
 
     def __sub__(self, b):
+        """
+        Subtracts a potential prime number
+
+        :param b: the potential prime number
+        :return: the result
+        :rtype: int
+        """
         if isinstance(b, Prime):
-            return (self.__value - b.__value)
+            return self._value - b._value
         else:
-            return (self.__value - b)
+            return self._value - b
 
     def __mul__(self, b):
+        """
+        Multiplicates a potential prime number
+
+        :param b: the potential prime number
+        :return: the result
+        :rtype: int
+        """
         if isinstance(b, Prime):
-            return (self.__value * b.__value)
+            return self._value * b._value
         else:
-            return (self.__value * b)
+            return self._value * b
 
     def __div__(self, b):
+        """
+        Divides a potential prime number
+
+        :param b: the potential prime number
+        :return: the result
+        """
         if isinstance(b, Prime):
-            return (self.__value / b.__value)
+            return self._value / b._value
         else:
-            return (self.__value / b)
+            return self._value / b
 
-    def getValue(self):
-        return self.__value
+    def _get_value(self):
+        """
+        Returns the value of the prime number
 
-    def __isPrimality(self, maybe):
-        for _ in range(self.__SOLOVAYSTRASSENROUNDS):
+        :return: The value
+        :rtype: int
+        """
+        return self._value
+
+    value = property(_get_value)
+
+    def _is_primality(self, maybe):
+        """
+        Checks if the potential prime number is a prime number via Solovay Strassen Test
+        with a configured number of rounds.
+
+        :param maybe: The potential prime number.
+        :return:
+            True if its a prime
+            False if its no prime
+        """
+        for _ in range(self.SOLOVAY_STRASSEN_ROUNDS):
             x = random.SystemRandom().randint(1, maybe)
-            if self.__solovayStrassen.is_composite(x, maybe):
+            if SolovayStrassen.is_composite(x, maybe):
                 return False
         return True
