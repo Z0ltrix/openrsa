@@ -18,7 +18,6 @@ class Euclid:
         the Euclidean algorithm is an efficient method for computing the greatest common divisor (GCD) of two numbers,
         the largest number that divides both of them without leaving a remainder.
 
-        :param self: instance of the class
         :param a: first divisor
         :param b: second divisor
         :return: greatest common divisor
@@ -35,11 +34,10 @@ class Euclid:
          greatest common divisor of integers a and b, also the coefficients of Bézout's identity,
          which are integers u and v such that a * u + b * v = gcd ( a , b )
 
-        :param self: instance of the class
         :param a: first divisor
         :param b: second divisor
         :return: greatest common divisor and the coefficients of Bézout's identity u and v
-        :rtype: int, int, int
+        :rtype: (int, int, int)
         """
         u, v, s, t = 1, 0, 0, 1
         while b > 0:
