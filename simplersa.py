@@ -78,18 +78,3 @@ class SimpleRsa:
 
     def verify(self, data, encipherExponent, modulo):
         return pow(data, encipherExponent, modulo)
-
-
-if __name__ == '__main__':
-    rsa = SimpleRsa()
-    data = int(input("Data      : "))
-    while True:
-        bits = int(input("Bits      : "))
-        privateKey, publicKey = rsa.generateKeyPair(bits)
-        print("encipherExponent : ", publicKey.getEncipherExponent())
-        print("decipherExponent : ", privateKey.getDecipherExponent())
-        encipheredData = rsa.encipher(data, publicKey.getEncipherExponent(), publicKey.getModulo())
-        print("encipheredData   : ", encipheredData)
-        decipheredData = rsa.decipher(encipheredData, privateKey.getDecipherExponent(), privateKey.getModulo())
-        print("decipheredData   : ", decipheredData)
-        if input("nochmal? ") == "nein": break
