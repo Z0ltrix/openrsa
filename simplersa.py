@@ -34,7 +34,7 @@ class SimpleRsa:
             pass
         return decipherExponent
 
-    def _checkModulo(self, modulo):
+    def _checkModulo(self, modulo, bits):
         if (modulo.bit_length() == bits):
             return True
         else:
@@ -52,7 +52,7 @@ class SimpleRsa:
             if (q == 0) or (change == 0):
                 q = prime.Prime(qBits)
             modulo = self._calculateModulo(p, q)
-            if self._checkModulo(modulo):
+            if self._checkModulo(modulo, bits):
                 break
             else:
                 if (change == 0):
