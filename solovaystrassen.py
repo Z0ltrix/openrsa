@@ -30,8 +30,8 @@ class SolovayStrassen:
         :param a: any number
         :param maybe: potential prime
         :return:
-            True if maybe is definitely not a prime
-            False if may is probably a prime
+            True if maybe is definitely not a prime, because its a composition.
+            False if maybe is probably a prime, but not verified.
         """
         g = Euclid.algorithm(a, maybe)
         b = pow(a, maybe >> 1, maybe)
@@ -47,13 +47,3 @@ class SolovayStrassen:
             else:
                 pass
         return False
-
-
-if __name__ == '__main__':
-    a1 = 17
-    a2 = 29
-    a3 = 23
-    maybe = 91
-    print(SolovayStrassen.is_composite(a1, maybe))
-    print(SolovayStrassen.is_composite(a2, maybe))
-    print(SolovayStrassen.is_composite(a3, maybe))

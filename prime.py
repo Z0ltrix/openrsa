@@ -61,6 +61,6 @@ class Prime:
     def __isPrimality(self, maybe):
         for _ in range(self.__SOLOVAYSTRASSENROUNDS):
             x = random.SystemRandom().randint(1, maybe)
-            if self.__solovayStrassen.isComposite(x, maybe):
+            if self.__solovayStrassen.is_composite(x, maybe):
                 return False
         return True
