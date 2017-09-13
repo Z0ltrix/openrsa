@@ -1,44 +1,49 @@
 # -*- coding: utf-8 -*-
 
+
 class Key:
     def __init__(self, modulo, exponent):
-        self.__modulo = modulo
-        self.__exponent = exponent
+        self._modulo = modulo
+        self._exponent = exponent
 
-    def getBits(self):
-        return self.__modulo.bit_length()
+    def get_bits(self):
+        return self._modulo.bit_length()
 
-    def getModulo(self):
-        return self.__modulo
+    def get_modulo(self):
+        return self._modulo
 
-    def getExponent(self):
-        return self.__exponent
+    def get_exponent(self):
+        return self._exponent
 
-    def isPublic(self):
+    @staticmethod
+    def is_public():
         return False
 
-    def isPrivate(self):
+    @staticmethod
+    def is_private():
         return False
 
 
 class PrivateKey(Key):
-    def __init__(self, modulo, decipherExponent):
-        Key.__init__(self, modulo, decipherExponent)
+    def __init__(self, modulo, decipher_exponent):
+        Key.__init__(self, modulo, decipher_exponent)
 
-    def getDecipherExponent(self):
-        return self.getExponent()
+    def get_decipher_exponent(self):
+        return self.get_exponent()
 
-    def isPrivate(self):
+    @staticmethod
+    def is_private():
         return True
 
 
 class PublicKey(Key):
-    def __init__(self, modulo, encipherExponent):
-        Key.__init__(self, modulo, encipherExponent)
+    def __init__(self, modulo, encipher_exponent):
+        Key.__init__(self, modulo, encipher_exponent)
         self.__isPublic = True
 
-    def getEncipherExponent(self):
-        return self.getExponent()
+    def get_encipher_exponent(self):
+        return self.get_exponent()
 
-    def isPublic(self):
+    @staticmethod
+    def is_public():
         return True
