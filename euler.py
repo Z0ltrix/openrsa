@@ -51,8 +51,7 @@ class Euler:
 
         :param p: first prime factor of n
         :param q: second prime factor of n
-        :return: phi, also called totative
+        :return: phi
         :rtype: int
         """
-        totative = (p - 1) * (q - 1)
-        return totative
+        return (p - 1) * (q - 1)
