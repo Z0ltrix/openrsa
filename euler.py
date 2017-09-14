@@ -1,0 +1,58 @@
+# -*- coding: utf-8 -*-
+"""
+MIT License
+
+Copyright (c) 2017 Christian Pfarr
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+"""
+
+
+class Euler:
+    """
+    A Class to compute Eulers phi function
+    """
+
+    def __init__(self):
+        """
+        The constructor of this class does nothing
+        """
+        pass
+
+    def __del__(self):
+        """
+        The destructor of this class does nothing
+        """
+        pass
+
+    @staticmethod
+    def phi(p, q):
+        """
+        The totient function phi(n), also called Euler's totient function,
+        is defined as the number of positive integers <=n that are relatively prime to n.
+        In this implementation wie use the 2 prime factors p and q of n, the result is the same.
+
+        :param p: first prime factor of n
+        :param q: second prime factor of n
+        :return: phi, also called totative
+        :rtype: int
+        """
+        totative = (p - 1) * (q - 1)
+        return totative
