@@ -32,7 +32,7 @@ import key
 import prime
 
 
-class SimpleRsa:
+class OpenRsa:
     def __init__(self):
         pass
 
