@@ -1,2 +1,2 @@
-# simplersa
-Simple RSA Library completely written in Python
+# oimplersa
+Open RSA Library completely written in Python
