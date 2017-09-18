@@ -25,30 +25,30 @@ SOFTWARE.
 """
 import unittest
 
-from simplersa import SimpleRsa
+from openrsa import OpenRsa
 
 
-class SimpleRsaTestCase(unittest.TestCase):
+class OpenRsaTestCase(unittest.TestCase):
     def setUp(self):
-        self.simple_rsa = SimpleRsa()
+        self.rsa = OpenRsa()
         self.data = 42
         self.bits = 128
-        self.private_key, self.public_key = self.simple_rsa.generateKeyPair(self.bits)
-        self.enciphered_data = self.simple_rsa.encipher(self.data,
-                                                        self.public_key.get_encipher_exponent(),
-                                                        self.public_key.get_modulo())
-        self.deciphered_data = self.simple_rsa.decipher(self.enciphered_data,
-                                                        self.private_key.get_decipher_exponent(),
-                                                        self.public_key.get_modulo())
-        self.signed_data = self.simple_rsa.sign(self.data,
-                                                self.private_key.get_decipher_exponent(),
-                                                self.private_key.get_modulo())
-        self.verified_data = self.simple_rsa.verify(self.signed_data,
-                                                    self.public_key.get_encipher_exponent(),
-                                                    self.public_key.get_modulo())
+        self.private_key, self.public_key = self.rsa.generateKeyPair(self.bits)
+        self.enciphered_data = self.rsa.encipher(self.data,
+                                                 self.public_key.get_encipher_exponent(),
+                                                 self.public_key.get_modulo())
+        self.deciphered_data = self.rsa.decipher(self.enciphered_data,
+                                                 self.private_key.get_decipher_exponent(),
+                                                 self.public_key.get_modulo())
+        self.signed_data = self.rsa.sign(self.data,
+                                         self.private_key.get_decipher_exponent(),
+                                         self.private_key.get_modulo())
+        self.verified_data = self.rsa.verify(self.signed_data,
+                                             self.public_key.get_encipher_exponent(),
+                                             self.public_key.get_modulo())
 
     def tearDown(self):
-        del self.simple_rsa
+        del self.rsa
         del self.data
         del self.bits
         del self.private_key
