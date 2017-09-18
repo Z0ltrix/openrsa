@@ -24,82 +24,87 @@ SOFTWARE.
 
 """
 
-
 import random
 
 from euclid import Euclid
-import key
-import prime
+from euler import Euler
+from key import PrivateKey, PublicKey
+from prime import Prime
 
 
 class OpenRsa:
     def __init__(self):
         pass
 
-    def _calculateModulo(self, p, q):
+    @staticmethod
+    def _calculate_modulo(p, q):
         modulo = p * q
         return modulo
 
-    def _calculatePhi(self, p, q):
-        phi = (p - 1) * (q - 1)
-        return phi
-
-    def _calculateEncipherExponent(self, phi):
+    @staticmethod
+    def _calculate_encipher_exponent(phi):
         while True:
-            encipherExponent = random.SystemRandom().randint(1, phi)
-            if (Euclid.algorithm(encipherExponent, phi) == 1):
+            encipher_exponent = random.SystemRandom().randint(1, phi)
+            if Euclid.algorithm(encipher_exponent, phi) == 1:
                 break
-        return encipherExponent
+        return encipher_exponent
 
-    def _calculateDecipherExponent(self, phi, encipherExponent):
-        gcd, u, decipherExponent = Euclid.extended_algorithm(phi, encipherExponent)
-        if decipherExponent < 0:
-            decipherExponent += phi
+    @staticmethod
+    def _calculate_decipher_exponent(phi, encipher_exponent):
+        gcd, u, decipher_exponent = Euclid.extended_algorithm(phi, encipher_exponent)
+        if decipher_exponent < 0:
+            decipher_exponent += phi
         else:
             pass
-        return decipherExponent
+        return decipher_exponent
 
-    def _checkModulo(self, modulo, bits):
-        if (modulo.bit_length() == bits):
+    @staticmethod
+    def _check_modulo(modulo, bits):
+        if modulo.bit_length() == bits:
             return True
         else:
             return False
 
-    def generateKeyPair(self, bits=2048):
+    @staticmethod
+    def generate_key_pair(bits=2048):
         p = 0
         q = 0
-        pBits = bits // 2
-        qBits = bits // 2
+        p_bits = bits // 2
+        q_bits = bits // 2
         change = 0
         while True:
             if (p == 0) or (change == 1):
-                p = prime.Prime(pBits)
+                p = Prime(p_bits)
             if (q == 0) or (change == 0):
-                q = prime.Prime(qBits)
-            modulo = self._calculateModulo(p, q)
-            if self._checkModulo(modulo, bits):
+                q = Prime(q_bits)
+            modulo = OpenRsa._calculate_modulo(p, q)
+            if OpenRsa._check_modulo(modulo, bits):
                 break
             else:
-                if (change == 0):
+                if change == 0:
                     change = 1
                 else:
                     change = 0
                 continue
-        phi = self._calculatePhi(p, q)
-        encipherExponent = self._calculateEncipherExponent(phi)
-        decipherExponent = self._calculateDecipherExponent(phi, encipherExponent)
-        privateKey = key.PrivateKey(modulo, decipherExponent)
-        publicKey = key.PublicKey(modulo, encipherExponent)
-        return (privateKey, publicKey)
+        phi = Euler.phi(p, q)
+        encipher_exponent = OpenRsa._calculate_encipher_exponent(phi)
+        decipher_exponent = OpenRsa._calculate_decipher_exponent(phi, encipher_exponent)
+        private_key = PrivateKey(modulo, decipher_exponent)
+        public_key = PublicKey(modulo, encipher_exponent)
+        return private_key, public_key
 
-    def encipher(self, data, encipherExponent, modulo):
-        return pow(data, encipherExponent, modulo)
+    @staticmethod
+    def encipher_int(data, encipher_exponent, modulo):
+        return pow(data, encipher_exponent, modulo)
 
-    def decipher(self, data, decipherExponent, modulo):
-        return pow(data, decipherExponent, modulo)
+    @staticmethod
+    def decipher_int(data, decipher_exponent, modulo):
+        return pow(data, decipher_exponent, modulo)
 
-    def sign(self, data, decipherExponent, modulo):
-        return pow(data, decipherExponent, modulo)
+    @staticmethod
+    def sign_int(data, decipher_exponent, modulo):
+        return pow(data, decipher_exponent, modulo)
 
-    def verify(self, data, encipherExponent, modulo):
-        return pow(data, encipherExponent, modulo)
+    @staticmethod
+    def verify_int(data, encipher_exponent, modulo):
+        return pow(data, encipher_exponent, modulo)
