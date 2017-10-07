@@ -24,7 +24,6 @@ SOFTWARE.
 
 """
 
-
 import random
 
 from solovaystrassen import SolovayStrassen
@@ -120,17 +119,29 @@ class Prime:
         else:
             return self._value * b
 
-    def __truediv__(self, b):
+    def __floordiv__(self, other):
         """
-        Divides a potential prime number
+        Divides a potential prime number with integer division.
 
-        :param b: the potential prime number
+        :param other: the potential prime number
         :return: the result
         """
-        if isinstance(b, Prime):
-            return self._value / b._value
+        if isinstance(other, Prime):
+            return self._value // other._value
         else:
-            return self._value / b
+            return self._value // other
+
+    def __truediv__(self, other):
+        """
+        Divides a potential prime number with true division
+
+        :param other: the potential prime number
+        :return: the result
+        """
+        if isinstance(other, Prime):
+            return self._value / other._value
+        else:
+            return self._value / other
 
     def _get_value(self):
         """

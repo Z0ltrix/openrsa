@@ -30,7 +30,7 @@ from prime import Prime
 
 class PrimeTestCase(unittest.TestCase):
     def setUp(self):
-        self.bits = 256
+        self.bits = 512
         self.prime = Prime(self.bits)
         self.value = 25
 
@@ -50,5 +50,8 @@ class PrimeTestCase(unittest.TestCase):
     def test_mul(self):
         self.assertTrue(self.prime * self.value == self.prime.value * self.value, "Wrong multiplication")
 
-    def test_div(self):
-        self.assertTrue(self.prime / self.value == self.prime.value / self.value, "Wrong division")
+    def test_truediv(self):
+        self.assertTrue(self.prime / self.value == self.prime.value / self.value, "Wrong float division")
+
+    def test_floordiv(self):
+        self.assertTrue(self.prime // self.value == self.prime.value // self.value, "Wrong integer division")
