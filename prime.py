@@ -34,7 +34,7 @@ class Prime:
     Class for working with prime numbers
     """
 
-    SOLOVAY_STRASSEN_ROUNDS = 100
+    SOLOVAY_STRASSEN_ROUNDS = 54
 
     def __init__(self, bits):
         """
@@ -169,3 +169,7 @@ class Prime:
             if SolovayStrassen.is_composite(x, maybe):
                 return False
         return True
+
+    @classmethod
+    def security(cls):
+        return (100 * (1 - (1 / (pow(2, cls.SOLOVAY_STRASSEN_ROUNDS)))))

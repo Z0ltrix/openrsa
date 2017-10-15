@@ -55,3 +55,6 @@ class PrimeTestCase(unittest.TestCase):
 
     def test_floordiv(self):
         self.assertTrue(self.prime // self.value == self.prime.value // self.value, "Wrong integer division")
+
+    def test_security(self):
+        self.assertTrue(Prime.security() == 100.0, "Security is not 100 %")

@@ -24,7 +24,9 @@ SOFTWARE.
 
 """
 
-import random
+from multiprocessing import Pool
+from multiprocessing import cpu_count
+from random import SystemRandom
 
 from euclid import Euclid
 from euler import Euler
@@ -38,15 +40,13 @@ class OpenRsa:
 
     @staticmethod
     def _calculate_modulo(p, q):
-        modulo = p * q
-        return modulo
+        return p * q
 
     @staticmethod
     def _calculate_encipher_exponent(phi):
-        while True:
-            encipher_exponent = random.SystemRandom().randint(1, phi)
-            if Euclid.algorithm(encipher_exponent, phi) == 1:
-                break
+        encipher_exponent = 0
+        while Euclid.algorithm(encipher_exponent, phi) != 1:
+            encipher_exponent = SystemRandom().randint(1, phi)
         return encipher_exponent
 
     @staticmethod
@@ -59,33 +59,17 @@ class OpenRsa:
         return decipher_exponent
 
     @staticmethod
-    def _check_modulo(modulo, bits):
-        if modulo.bit_length() == bits:
-            return True
-        else:
-            return False
-
-    @staticmethod
-    def generate_key_pair(bits=2048):
+    def generate_key_pair(bit_length=2048):
+        worker = Pool(min(2, cpu_count()))
+        bits = [(bit_length // 2), (bit_length // 2)]
         p = 0
         q = 0
-        p_bits = bits // 2
-        q_bits = bits // 2
-        change = 0
-        while True:
-            if (p == 0) or (change == 1):
-                p = Prime(p_bits)
-            if (q == 0) or (change == 0):
-                q = Prime(q_bits)
+        modulo = 0
+        while modulo.bit_length() != bit_length:
+            primes = worker.map(Prime, bits)
+            p = primes[0]
+            q = primes[1]
             modulo = OpenRsa._calculate_modulo(p, q)
-            if OpenRsa._check_modulo(modulo, bits):
-                break
-            else:
-                if change == 0:
-                    change = 1
-                else:
-                    change = 0
-                continue
         phi = Euler.phi(p, q)
         encipher_exponent = OpenRsa._calculate_encipher_exponent(phi)
         decipher_exponent = OpenRsa._calculate_decipher_exponent(phi, encipher_exponent)
@@ -108,3 +92,9 @@ class OpenRsa:
     @staticmethod
     def verify_int(data, encipher_exponent, modulo):
         return pow(data, encipher_exponent, modulo)
+
+
+if __name__ == "__main__":
+    private_key, public_key = OpenRsa.generate_key_pair(2048)
+    print("private key: " + str(private_key))
+    print("public key: " + str(public_key))
