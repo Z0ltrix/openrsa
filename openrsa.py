@@ -92,9 +92,3 @@ class OpenRsa:
     @staticmethod
     def verify_int(data, encipher_exponent, modulo):
         return pow(data, encipher_exponent, modulo)
-
-
-if __name__ == "__main__":
-    private_key, public_key = OpenRsa.generate_key_pair(2048)
-    print("private key: " + str(private_key))
-    print("public key: " + str(public_key))
