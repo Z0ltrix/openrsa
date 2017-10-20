@@ -92,7 +92,15 @@ class Key:
     exponent = property(_get_exponent)
     modulo = property(_get_modulo)
 
-    def process_int(self, data):
+    def modular_exponentiation(self, data):
+        """
+        The operation of modular exponentiation calculates the remainder when an integer data (the base)
+        raised to the power of the exponent, divided by a positive integer modulo.
+
+        :param data: Data to process the modular exponentiation.
+        :return: The result of the modular exponentiation.
+        :rtype: int
+        """
         return pow(data, self._exponent, self._modulo)
 
 
@@ -135,10 +143,24 @@ class PrivateKey(Key):
     decipher_exponent = property(_get_decipher_exponent)
 
     def decipher_int(self, data):
-        return self.process_int(data)
+        """
+        Decipher an integer value.
+
+        :param data: Data to be deciphered.
+        :return: The deciphered data.
+        :rtype: int
+        """
+        return self.modular_exponentiation(data)
 
     def sign_int(self, data):
-        return self.process_int(data)
+        """
+        Sign an integer value.
+
+        :param data: Data to be signed.
+        :return: The signed data
+        :rtype: int
+        """
+        return self.modular_exponentiation(data)
 
 
 class PublicKey(Key):
@@ -180,7 +202,22 @@ class PublicKey(Key):
     encipher_exponent = property(_get_encipher_exponent)
 
     def encipher_int(self, data):
-        return self.process_int(data)
+        """
+        Encipher an integer value.
+
+        :param data: Data to be enciphered.
+        :return: The enciphered Data.
+        :rtype: int
+        """
+        return self.modular_exponentiation(data)
 
     def verify_int(self, data):
-        return self.process_int(data)
+        """
+        Verify an integer value.
+
+
+        :param data: Data to be verified.
+        :return: The verified Data.
+        :rtype: int
+        """
+        return self.modular_exponentiation(data)

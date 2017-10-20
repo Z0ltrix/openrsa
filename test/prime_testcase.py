@@ -30,7 +30,7 @@ from prime import Prime
 
 class PrimeTestCase(unittest.TestCase):
     def setUp(self):
-        self.bits = 512
+        self.bits = 128
         self.prime = Prime(self.bits)
         self.value = 25
 

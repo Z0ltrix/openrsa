@@ -36,7 +36,6 @@ class KeyPairTestCase(TestCase):
         del self.bits
 
     def test_key_pair(self):
-        length = 128
-        key_pair = KeyPair(length)
-        self.assertTrue(key_pair.public_key.modulo.bit_length() == length,
+        key_pair = KeyPair(self.bits)
+        self.assertTrue(key_pair.public_key.modulo.bit_length() == self.bits,
                         "Key pair constructor creates wrong bitlength modulo")
