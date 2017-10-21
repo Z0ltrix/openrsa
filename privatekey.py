@@ -42,14 +42,15 @@ class PrivateKey(Key):
         """
         Key.__init__(self, modulo, decipher_exponent)
 
-    def _get_decipher_exponent(self):
+    @property
+    def decipher_exponent(self):
         """
         Returns the decipher exponent of the private key.
 
         :return: decipher exponent of the private key
         :rtype: int
         """
-        return self._get_exponent()
+        return self._exponent
 
     @staticmethod
     def is_private():
@@ -62,8 +63,6 @@ class PrivateKey(Key):
         :rtype: bool
         """
         return True
-
-    decipher_exponent = property(_get_decipher_exponent)
 
     def decipher_int(self, data):
         """

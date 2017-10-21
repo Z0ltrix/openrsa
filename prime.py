@@ -143,16 +143,15 @@ class Prime(object):
         else:
             return self._value / other
 
-    def _get_value(self):
+    @property
+    def value(self):
         """
-        Returns the value of the prime number
+        Returns the value of the prime number.
 
-        :return: The value
+        :return: The value.
         :rtype: int
         """
         return self._value
-
-    value = property(_get_value)
 
     def _is_primality(self, maybe):
         """
@@ -172,4 +171,11 @@ class Prime(object):
 
     @classmethod
     def security(cls):
+        """
+        Calculates the security level in percent.
+        To change the security level, just change the static value SOLOVAY_STRASSEN_ROUNDS.
+
+        :return: The security level in percent.
+        :rtype: float
+        """
         return (100 * (1 - (1 / (pow(2, cls.SOLOVAY_STRASSEN_ROUNDS)))))

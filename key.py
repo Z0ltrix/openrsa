@@ -40,32 +40,15 @@ class Key(object):
         self._modulo = modulo
         self._exponent = exponent
 
+    @property
     def bit_length(self):
         """
         Returns the length of the key in bit
 
-        :return: length of the key in bit
+        :return: Length of the key in bit
         :rtype: int
         """
         return self._modulo.bit_length()
-
-    def _get_modulo(self):
-        """
-        Returns the modulo of the key
-
-        :return: modulo of the key
-        :rtype: int
-        """
-        return self._modulo
-
-    def _get_exponent(self):
-        """
-        Returns the exponent of the key
-
-        :return: exponent of the key
-        :rtype: int
-        """
-        return self._exponent
 
     @staticmethod
     def is_public():
@@ -89,8 +72,25 @@ class Key(object):
         """
         return False
 
-    exponent = property(_get_exponent)
-    modulo = property(_get_modulo)
+    @property
+    def exponent(self):
+        """
+        Get the exponent of the key.
+
+        :return: Exponent of the key.
+        :rtype: int
+        """
+        return self._exponent
+
+    @property
+    def modulo(self):
+        """
+        Get the modulo of the key.
+
+        :return: Modulo of the key.
+        :rtype: int
+        """
+        return self._modulo
 
     def modular_exponentiation(self, data):
         """

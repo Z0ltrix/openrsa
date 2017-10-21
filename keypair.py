@@ -66,13 +66,28 @@ class KeyPair(object):
         self._public_key = PublicKey(modulo, encipher_exponent)
 
     def __del__(self):
-        pass
+        """
+        Deletes the key pair.
+        """
+        del self._private_key
+        del self._public_key
 
-    def _get_private_key(self):
+    @property
+    def private_key(self):
+        """
+        Returns the private key of the key pair.
+
+        :return: Private key.
+        :rtype: PrivateKey
+        """
         return self._private_key
 
-    def _get_public_key(self):
-        return self._public_key
+    @property
+    def public_key(self):
+        """
+        Returns the public key of the key pair.
 
-    private_key = property(_get_private_key)
-    public_key = property(_get_public_key)
+        :return: Public key.
+        :rtype: PublicKey
+        """
+        return self._public_key

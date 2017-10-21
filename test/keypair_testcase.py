@@ -35,7 +35,14 @@ class KeyPairTestCase(TestCase):
     def tearDown(self):
         del self.bits
 
-    def test_key_pair(self):
-        key_pair = KeyPair(self.bits)
-        self.assertTrue(key_pair.public_key.modulo.bit_length() == self.bits,
-                        "Key pair constructor creates wrong bitlength modulo")
+    def test_key_pair_bits(self):
+        self.assertTrue(KeyPair(self.bits).public_key.modulo.bit_length() == self.bits,
+                        "Key pair constructor creates wrong bit length modulo")
+
+    def test_public_key_bits(self):
+        self.assertTrue(KeyPair(self.bits).public_key.bit_length == self.bits,
+                        "Key pair constructor creates wrong bit length public key")
+
+    def test_private_key_bits(self):
+        self.assertTrue(KeyPair(self.bits).private_key.bit_length == self.bits,
+                        "Key pair constructor creates wrong bit length private key")

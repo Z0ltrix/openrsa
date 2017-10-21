@@ -42,14 +42,15 @@ class PublicKey(Key):
         """
         Key.__init__(self, modulo, encipher_exponent)
 
-    def _get_encipher_exponent(self):
+    @property
+    def encipher_exponent(self):
         """
         Returns the encipher exponent of the public key.
 
         :return: the encipher exponent of the public key
         :rtype: int
         """
-        return self._get_exponent()
+        return self._exponent
 
     @staticmethod
     def is_public():
@@ -62,8 +63,6 @@ class PublicKey(Key):
         :rtype: bool
         """
         return True
-
-    encipher_exponent = property(_get_encipher_exponent)
 
     def encipher_int(self, data):
         """
