@@ -25,7 +25,7 @@ SOFTWARE.
 """
 
 
-class Euler:
+class Euler(object):
     """
     A Class to compute Eulers phi function
     """

@@ -25,7 +25,7 @@ SOFTWARE.
 """
 
 
-class Euclid:
+class Euclid(object):
     """
     A class to compute the Euclidean algorithm and extended Euclidean algorithm.
     """

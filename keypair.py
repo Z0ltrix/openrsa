@@ -33,7 +33,7 @@ from privatekey import PrivateKey
 from publickey import PublicKey
 
 
-class KeyPair:
+class KeyPair(object):
     """
     Class to store the private and public key in one object.
     """

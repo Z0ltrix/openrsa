@@ -28,7 +28,7 @@ from euclid import Euclid
 from jacobi import Jacobi
 
 
-class SolovayStrassen:
+class SolovayStrassen(object):
     """
     A Class to compute the Solovay–Strassen primality test
     """

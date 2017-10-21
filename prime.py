@@ -29,7 +29,7 @@ import random
 from solovaystrassen import SolovayStrassen
 
 
-class Prime:
+class Prime(object):
     """
     Class for working with prime numbers
     """

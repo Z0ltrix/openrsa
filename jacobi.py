@@ -25,7 +25,7 @@ SOFTWARE.
 """
 
 
-class Jacobi:
+class Jacobi(object):
     """
     A Class to compute the Jacobi Symbol
     """
