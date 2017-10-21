@@ -28,8 +28,9 @@ from random import SystemRandom
 
 from euclid import Euclid
 from euler import Euler
-from key import PrivateKey, PublicKey
 from prime import Prime
+from privatekey import PrivateKey
+from publickey import PublicKey
 
 
 class KeyPair:

@@ -28,7 +28,7 @@ from unittest import TestCase
 from keypair import KeyPair
 
 
-class KeyTestCase(TestCase):
+class OpenRsaTestCase(TestCase):
     def setUp(self):
         self.data = 42
         self.bits = 128
