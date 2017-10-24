@@ -25,6 +25,7 @@ SOFTWARE.
 """
 
 from key import Key
+from utils import utf8str2utf32bytes, utf32bytes2utf8str, pack, unpack
 
 
 class PrivateKey(Key):
@@ -64,22 +65,22 @@ class PrivateKey(Key):
         """
         return True
 
-    def decipher_int(self, data):
+    def decipher(self, hex_utf32bytes):
         """
-        Decipher an integer value.
+        Deciphers the given hex string of UTF-32 formatted bytes.
 
-        :param data: Data to be deciphered.
-        :return: The deciphered data.
-        :rtype: int
+        :param hex_utf32bytes: The enciphered data as hex string of UTF-32 formatted bytes
+        :return: The deciphered Data as UTF-8 string
+        :rtype: string
         """
-        return self.modular_exponentiation(data)
+        return utf32bytes2utf8str(self._stream_modular_exponentiation(bytes.fromhex(unpack(hex_utf32bytes))))
 
-    def sign_int(self, data):
+    def sign(self, utf8str):
         """
-        Sign an integer value.
+        Sign the given plain text as UTF-8 string and return the signed data as a hex representation of UTF-32 bytes.
 
-        :param data: Data to be signed.
-        :return: The signed data
-        :rtype: int
+        :param utf8str: The plain text as UTF-8 string.
+        :return: The signed data as hex representation of UTF-32 bytes.
+        :rtype: string
         """
-        return self.modular_exponentiation(data)
+        return pack(self._stream_modular_exponentiation(utf8str2utf32bytes(utf8str)).hex())

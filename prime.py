@@ -178,4 +178,4 @@ class Prime(object):
         :return: The security level in percent.
         :rtype: float
         """
-        return (100 * (1 - (1 / (pow(2, cls.SOLOVAY_STRASSEN_ROUNDS)))))
+        return 100 * (1 - (1 / (pow(2, cls.SOLOVAY_STRASSEN_ROUNDS))))

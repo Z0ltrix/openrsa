@@ -23,6 +23,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 """
+from io import BytesIO
+from sys import byteorder
+
+from utils import trim_empty_utf32bytes
 
 
 class Key(object):
@@ -92,13 +96,33 @@ class Key(object):
         """
         return self._modulo
 
-    def modular_exponentiation(self, data):
+    def _modular_exponentiation(self, integer):
         """
-        The operation of modular exponentiation calculates the remainder when an integer data (the base)
-        raised to the power of the exponent, divided by a positive integer modulo.
+        The operation of modular exponentiation calculates the remainder when an integer (the base)
+        raised to the power of the exponent, divided by an modulo.
 
-        :param data: Data to process the modular exponentiation.
+        :param integer: Integer to process the modular exponentiation.
         :return: The result of the modular exponentiation.
         :rtype: int
         """
-        return pow(data, self._exponent, self._modulo)
+        return pow(integer, self._exponent, self._modulo)
+
+    def _stream_modular_exponentiation(self, utf32bytes):
+        """
+        Calculates the operation of modular exponentiation over a stream of UTF-32 formatted bytes.
+
+        :param utf32bytes: UTF-32 formatted input bytes.
+        :return: UTF-32 formatted output bytes.
+        :rtype: bytes
+        """
+        input_stream = BytesIO(utf32bytes)
+        output_stream = BytesIO()
+        buffer_length = self.bit_length // 8
+        buffer = bytearray(buffer_length)
+        while input_stream.readinto(buffer) > 1:
+            input_integer = int.from_bytes(buffer, byteorder)
+            output_integer = self._modular_exponentiation(input_integer)
+            output_buffer = trim_empty_utf32bytes(output_integer.to_bytes(buffer_length, byteorder))
+            output_stream.write(output_buffer)
+            buffer = bytearray(buffer_length)
+        return output_stream.getvalue()

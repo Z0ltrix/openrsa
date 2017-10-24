@@ -41,9 +41,9 @@ class KeyPair(object):
     def __init__(self, bit_length=2048):
         """
         Creates the key pair with a given bit length.
-        Works with 2 seperate processes if possible.
+        Works with 2 separate processes if possible.
 
-        :param bit_length: the lenght of the modulo in bits
+        :param bit_length: the length of the modulo in bits
         """
         worker = Pool(min(2, cpu_count()))
         bits = [(bit_length // 2), (bit_length // 2)]

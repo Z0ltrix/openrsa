@@ -25,6 +25,7 @@ SOFTWARE.
 """
 
 from key import Key
+from utils import utf8str2utf32bytes, utf32bytes2utf8str, pack, unpack
 
 
 class PublicKey(Key):
@@ -64,23 +65,22 @@ class PublicKey(Key):
         """
         return True
 
-    def encipher_int(self, data):
+    def encipher(self, utf8str):
         """
-        Encipher an integer value.
+        Encipher the given UTF-8 String into a hex representation of UTF-32 bytes.
 
-        :param data: Data to be enciphered.
-        :return: The enciphered Data.
-        :rtype: int
+        :param utf8str: The input to encipher as UTF-8 string.
+        :return: Hex representation of UTF-32 bytes.
+        :rtype: string
         """
-        return self.modular_exponentiation(data)
+        return pack(self._stream_modular_exponentiation(utf8str2utf32bytes(utf8str)).hex())
 
-    def verify_int(self, data):
+    def verify(self, hex_utf32bytes):
         """
-        Verify an integer value.
+        Verify the given hex representation of UTF-32 bytes and return the plain message as UTF-8 string.
 
-
-        :param data: Data to be verified.
-        :return: The verified Data.
-        :rtype: int
+        :param hex_utf32bytes: Hex representation of UTF-32 string.
+        :return: The plain message as UTF-8 string.
+        :rtype: string
         """
-        return self.modular_exponentiation(data)
+        return utf32bytes2utf8str(self._stream_modular_exponentiation(bytes.fromhex(unpack(hex_utf32bytes))))
