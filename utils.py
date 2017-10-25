@@ -71,21 +71,39 @@ def pack(content):
     :return: Human readable format for the content.
     :rtype: string
     """
-    side = (OPEN_RSA_DATA_WITH - len(OPEN_RSA_DATA_TITLE)) // 2
-    left = "".join(repeat("#", side))
-    right = "".join(repeat("#", side))
+    # calculate configured length of side fillers
+    side_length = (OPEN_RSA_DATA_WITH - len(OPEN_RSA_DATA_TITLE)) // 2
+    # join the side fillers without separator
+    left = "".join(repeat("#", side_length))
+    right = "".join(repeat("#", side_length))
+    # clean memory
+    del side_length
+    # join the fillers and the header
     header = left + OPEN_RSA_DATA_TITLE + right
+    # clean memory
+    del left
+    del right
+    # join the footer without separator
     footer = "".join(repeat("#", OPEN_RSA_DATA_WITH))
     input_stream = StringIO(content)
+    # clean memory
+    del content
     output_stream = StringIO()
+    # write header line
     output_stream.write(header + "\n")
+    # split content into lines
     while True:
+        # read input lines
         line = input_stream.read(OPEN_RSA_DATA_WITH)
+        # check if something could be read
         if len(line) > 0:
+            # write the line into the output stream
             output_stream.write(line + "\n")
         else:
             break
+    # write footer line
     output_stream.write(footer)
+    # return the output stream as a single string
     return output_stream.getvalue()
 
 
@@ -97,9 +115,13 @@ def unpack(packed):
     :return: Hex representation of an UTF-32 string.
     :rtype: string
     """
+    # split the packed content into lines
     content = packed.splitlines()
-    content.remove(content[0])
-    content.pop()
+    # remove header
+    del content[0]
+    # remove footer
+    del content[len(content) - 1]
+    # join and return the remaining lines without a separator
     return "".join(content)
 
 
@@ -112,9 +134,14 @@ def trim_empty_utf32bytes(utf32bytes):
     :rtype: bytes
     """
     input_stream = BytesIO(utf32bytes)
+    # clean memory
+    del utf32bytes
     output_stream = BytesIO()
     buffer = bytearray(32 // 8)
     while input_stream.readinto(buffer) > 1:
         if buffer != b'\x00\x00\x00\x00':
             output_stream.write(buffer)
+    # clean memory
+    del buffer
+    del input_stream
     return output_stream.getvalue()

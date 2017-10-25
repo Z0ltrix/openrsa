@@ -24,6 +24,7 @@ SOFTWARE.
 
 """
 from io import BytesIO
+from multiprocessing import Pool, cpu_count
 from sys import byteorder
 
 from utils import trim_empty_utf32bytes
@@ -110,19 +111,42 @@ class Key(object):
     def _stream_modular_exponentiation(self, utf32bytes):
         """
         Calculates the operation of modular exponentiation over a stream of UTF-32 formatted bytes.
+        Works with a pool of processes by cpu_count().
 
         :param utf32bytes: UTF-32 formatted input bytes.
         :return: UTF-32 formatted output bytes.
         :rtype: bytes
         """
+        # input stream of UTF-32 formatted bytes
         input_stream = BytesIO(utf32bytes)
+        # clean memory
+        del utf32bytes
+        # output stream of UTF-32 formatted bytes
         output_stream = BytesIO()
+        # biggest possible buffer size is length of the modulo in bytes
         buffer_length = self.bit_length // 8
         buffer = bytearray(buffer_length)
+        input_integers = []
+        # read the integer values into an array
         while input_stream.readinto(buffer) > 1:
-            input_integer = int.from_bytes(buffer, byteorder)
-            output_integer = self._modular_exponentiation(input_integer)
-            output_buffer = trim_empty_utf32bytes(output_integer.to_bytes(buffer_length, byteorder))
-            output_stream.write(output_buffer)
+            input_integers.append(int.from_bytes(buffer, byteorder))
+            # clear the buffer after every read
             buffer = bytearray(buffer_length)
+        # clean memory
+        del buffer
+        del input_stream
+        # create a pool to compute the modular exponentiation in parallel processors
+        worker = Pool(cpu_count())
+        # compute the modular exponentiation parallel
+        output_integers = worker.map(self._modular_exponentiation, input_integers)
+        # clean memory
+        del input_integers
+        del worker
+        # write the calculated integer values into an output stream
+        for output_integer in output_integers:
+            # save the output integers as bytes, trim empty UTF-32 formatted bytes and write them to the output stream
+            output_stream.write(trim_empty_utf32bytes(output_integer.to_bytes(buffer_length, byteorder)))
+        # clean memory
+        del buffer_length
+        # return the whole stream as bytes
         return output_stream.getvalue()
