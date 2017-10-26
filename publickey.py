@@ -25,7 +25,6 @@ SOFTWARE.
 """
 
 from key import Key
-from utils import utf8str2utf32bytes, utf32bytes2utf8str, pack, unpack
 
 
 class PublicKey(Key):
@@ -73,7 +72,9 @@ class PublicKey(Key):
         :return: Hex representation of UTF-32 bytes.
         :rtype: string
         """
-        return pack(self._stream_modular_exponentiation(utf8str2utf32bytes(utf8str)).hex())
+        return self._pack(
+            self._stream_modular_exponentiation(
+                self._utf8str2utf32bytes(utf8str)).hex())
 
     def verify(self, hex_utf32bytes):
         """
@@ -83,4 +84,7 @@ class PublicKey(Key):
         :return: The plain message as UTF-8 string.
         :rtype: string
         """
-        return utf32bytes2utf8str(self._stream_modular_exponentiation(bytes.fromhex(unpack(hex_utf32bytes))))
+        return self._utf32bytes2utf8str(
+            self._stream_modular_exponentiation(
+                bytes.fromhex(
+                    self._unpack(hex_utf32bytes))))
