@@ -76,15 +76,16 @@ class PublicKey(Key):
             self._stream_modular_exponentiation(
                 self._utf8str2utf32bytes(utf8str)).hex())
 
-    def verify(self, hex_utf32bytes):
+    def verify(self, plain, signed):
         """
         Verify the given hex representation of UTF-32 bytes and return the plain message as UTF-8 string.
 
-        :param hex_utf32bytes: Hex representation of UTF-32 string.
-        :return: The plain message as UTF-8 string.
-        :rtype: string
+        :param plain: The plain message.
+        :param signed: The signed message.
+        :return: True if the signed message == the plain message
+        :rtype: bool
         """
-        return self._utf32bytes2utf8str(
+        return plain == self._utf32bytes2utf8str(
             self._stream_modular_exponentiation(
                 bytes.fromhex(
-                    self._unpack(hex_utf32bytes))))
+                    self._unpack(signed))))

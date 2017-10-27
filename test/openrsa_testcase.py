@@ -257,5 +257,4 @@ Box drawing alignment tests:                                          █
 
     def test_verify(self):
         signed_data = self.key_pair.private_key.sign(self.data)
-        verified_data = self.key_pair.public_key.verify(signed_data)
-        self.assertTrue(self.data == verified_data, "Verification doesnt work")
+        self.assertTrue(self.key_pair.public_key.verify(self.data, signed_data), "Verification doesnt work")
